@@ -1,0 +1,366 @@
+/* === style.css === */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Global Styles */
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #2c2c2c;
+  color: #fff;
+  scroll-behavior: smooth;
+}
+
+/* Navigation */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #1a1a1a;
+  padding: 20px 0; /* Increased from 10px */
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+}
+
+nav a {
+  color: white;
+  margin: 0 30px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 18px; /* Increased text size */
+  padding: 8px 16px; /* Optional: larger click area */
+  transition: color 0.3s ease, background 0.3s ease;
+}
+
+nav a:hover,
+nav a.active {
+  color: #3aaaff;
+  background-color: rgba(58, 170, 255, 0.1); /* subtle highlight */
+  border-radius: 6px;
+}
+
+/* Header */
+header {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+#particles-js {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: auto;
+}
+
+.header-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  pointer-events: none;
+}
+
+.header-content button {
+  pointer-events: auto;
+}
+
+header h1 {
+  font-size: 48px;
+}
+
+header h2 {
+  font-size: 28px;
+  margin: 10px 0 30px;
+}
+
+header button {
+  padding: 12px 28px;
+  font-size: 16px;
+  background: transparent;
+  color: #3aaaff;
+  border: 2px solid #3aaaff;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+header button:hover {
+  background: #3aaaff;
+  color: white;
+}
+
+.highlight {
+  color: #3aaaff;
+}
+
+/* Section Styles */
+section {
+  padding: 60px 20px 40px; /* Matches the feel of #contact */
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+h2 {
+  font-size: 32px;
+  position: relative;
+  display: inline-block;
+}
+
+h2::after {
+  content: '';
+  display: block;
+  height: 6px;
+  width: 60px;
+  background: #3aaaff;
+  margin: 8px auto 0;
+}
+
+/* Projects */
+/* Updated Project Section Layout with Staggered Image/Text Alignment */
+.project-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 100px;
+  padding-top: 60px;
+}
+
+.project {
+  display: flex;
+  flex-direction: row;
+  background: #222;
+  border-radius: 16px;
+  overflow: hidden;
+  width: 98vw;              /* Slightly wider */
+  max-width: 1600px;        /* Increased max width */
+  min-height: 60vh;
+  height: auto;
+  transition: all 0.3s ease;
+  margin: 0 auto;
+}
+
+
+.project:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.project img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 600px;       /* Bigger image */
+  object-fit: contain;     /* Show entire image without cropping */
+  margin: 0 auto;
+  display: block;
+  border-radius: 12px;
+}
+
+
+.project-content {
+  width: 50%;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.project-content h3 {
+  font-size: 26px;
+  margin-bottom: 16px;
+}
+
+.project-content p {
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* Contact Section (with embedded footer) */
+#contact {
+  height: 100vh;
+  padding: 60px 20px 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.contact-form {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 90vw;
+  max-width: 700px;
+  padding: 16px;
+  margin: 12px 0;
+  border: none;
+  border-radius: 6px;
+  background: #494949;
+  color: white;
+  font-size: 16px;
+  line-height: 1.4;
+  box-sizing: border-box;
+}
+
+
+.contact-form textarea {
+  min-height: 160px; /* Makes it noticeably taller */
+  resize: none;  /* Allow vertical resizing if desired */
+}
+
+.contact-form button {
+  padding: 12px 28px;
+  background: transparent;
+  border: 2px solid #3aaaff;
+  color: #3aaaff;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s;
+  margin-top: 10px;
+}
+
+.contact-form button:hover {
+  background: #3aaaff;
+  color: white;
+}
+
+/* Embedded Footer in Contact Section */
+footer {
+  width: 100%;
+  margin-top: auto;
+  padding: 40px 20px;
+  background: #1a1a1a;
+  text-align: center;
+  color: #aaa;
+  font-size: 14px;
+}
+
+/* Divider Line */
+.section-divider {
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(to right, #3aaaff, #3aaaff, #3aaaff);
+  opacity: 0.3;
+}
+
+/* About Section Layout */
+.about-layout {
+  display: flex;
+  align-items: stretch; /* 🆕 makes left and right columns the same height */
+  justify-content: center;
+  gap: 60px;
+  max-width: 1200px;
+  width: 95vw;
+  margin: 40px auto 0;
+}
+
+
+.about-left {
+  flex: 3;
+  max-width: 1850px;
+  text-align: center;
+}
+
+.about-avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  object-fit: cover;
+}
+
+.about-description {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #ddd;
+  text-align: left;
+}
+
+.about-right {
+  flex: 3;
+  max-width: 600px;
+  display: flex;
+  align-items: center; /* ✅ vertical center */
+  justify-content: center;
+}
+
+
+
+.about-banner {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.project-wrapper {
+  container-type: inline-size;
+  container-name: project;
+}
+
+/* Responsive adjustments */
+@media (max-width:  768px) {
+  .about-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-description {
+    text-align: center;
+  }
+}
+
+@media (max-width: 1024px) {
+  .project {
+    flex-direction: column-reverse;
+  }
+
+  .project:nth-child(even) {
+    flex-direction: column-reverse;
+  }
+
+  .project img {
+    width: 100%;
+    height: auto;
+    object-fit: contain; /* 🔁 show full image */
+    max-height: none;    /* 🔁 allow natural height */
+  }
+
+  .project-content {
+    width: 100%;
+    text-align: center;
+    padding: 30px 20px;
+  }
+
+  .project-content h3,
+  .project-content p {
+    text-align: center;
+  }
+}
