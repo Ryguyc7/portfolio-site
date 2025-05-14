@@ -1,5 +1,3 @@
-# portfolio-site
-
 # 🧑‍💻 My Developer Portfolio
 
 Welcome to my personal developer portfolio! This site showcases my work across web development, game design, 3D modeling, and UI/UX design. I’ve included a collection of my featured projects, skills, and experiences—built to reflect both my creativity and technical background.
