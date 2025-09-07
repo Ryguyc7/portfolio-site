@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- disable pinch/double-tap zoom on mobile -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>Ryan | Mobile and Web App Developer</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
@@ -22,7 +23,7 @@
 
     html{ scroll-behavior:smooth; }
     *{ box-sizing:border-box; }
-    html, body{ overflow-x:hidden; }
+    html, body{ overflow-x:hidden; touch-action: manipulation; }
     img{ max-width:100%; height:auto; display:block; }
 
     body{
@@ -77,7 +78,9 @@
     }
 
     /* Anchor offset */
-    header, section{ scroll-margin-top: calc(var(--nav-h) + 12px); }
+   /* Anchor offset – land headings flush under fixed nav */
+header, section { scroll-margin-top: var(--nav-h); }
+h2[id] { scroll-margin-top: var(--nav-h); }
 
     /* ===== HEADER ===== */
     header{
@@ -163,7 +166,7 @@
 
     .project-image{
       display:flex; align-items:center; justify-content:center;
-      width:60%; padding:16px; background:#1f1f1f;
+      width:60%; padding:16px; background:#1f1f1f; cursor:zoom-in;
     }
     .project-image img{ border-radius:12px; }
 
@@ -196,11 +199,13 @@
     .app-link-block{
       margin-top:16px; background:var(--panel-2); padding:16px; border-radius:12px;
       border:1px solid rgba(58,170,255,.20);
+      text-align:center;                      /* center whole block */
     }
-    .app-link-block h4{ margin:0 0 6px; font-size:17px; color:var(--accent); }
-    .app-link-block p{ margin:0 0 12px; font-size:15px; color:#ccc; }
+    .app-link-block h4{ margin:0 0 6px; font-size:17px; color:var(--accent); text-align:center; }
+    .app-link-block p{ margin:0 0 12px; font-size:15px; color:#ccc; text-align:center; }
     .app-link-button{
-      display:inline-block; padding:10px 18px; background:transparent;
+      display:inline-block; margin:8px auto 0; /* center button */
+      padding:10px 18px; background:transparent;
       border:2px solid var(--accent); color:var(--accent); border-radius:10px;
       text-decoration:none; font-weight:700; transition:.25s ease;
     }
@@ -242,6 +247,30 @@
       background:var(--panel-2);
       text-align:center; color:#aaa; font-size:14px;
       border-top:1px solid rgba(255,255,255,.06);
+    }
+
+    /* ===== Lightbox (image modal) ===== */
+    body.modal-open{ overflow:hidden; }
+    .lightbox{
+      position:fixed; inset:0; background:rgba(0,0,0,.85);
+      display:flex; align-items:center; justify-content:center;
+      opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:2000;
+      padding:24px;
+    }
+    .lightbox.open{ opacity:1; pointer-events:auto; }
+    .lightbox figure{
+      margin:0; max-width:90vw; max-height:85vh;
+      display:flex; flex-direction:column; gap:10px; align-items:center;
+    }
+    .lightbox img{
+      max-width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,.6);
+    }
+    .lightbox figcaption{ color:#e6e6e6; font-size:14px; opacity:.9; text-align:center; }
+    .lightbox .close-btn{
+      position:absolute; top:16px; right:16px;
+      background:transparent; border:1px solid rgba(255,255,255,.35);
+      color:#fff; border-radius:999px; padding:8px 12px; cursor:pointer;
+      font-size:14px;
     }
   </style>
 </head>
@@ -306,7 +335,7 @@
     <div class="project-container">
       <div class="project">
         <div class="project-image">
-          <img src="images/WordSurge.png" alt="Word Surge">
+          <img src="images/WordSurge.png" alt="Word Surge" />
         </div>
         <div class="project-content">
           <div class="project-summary">
@@ -323,7 +352,7 @@
 
       <div class="project">
         <div class="project-image">
-          <img src="images/themulticalc.png" alt="The Multi Calc">
+          <img src="images/themulticalc.png" alt="The Multi Calc" />
         </div>
         <div class="project-content">
           <div class="project-summary">
@@ -340,7 +369,7 @@
 
       <div class="project">
         <div class="project-image">
-          <img src="images/TextEditor.png" alt="Text Editor">
+          <img src="images/TextEditor.png" alt="Text Editor" />
         </div>
         <div class="project-content">
           <div class="project-summary">
@@ -376,6 +405,15 @@
     </footer>
   </section>
 
+  <!-- Lightbox modal -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
+    <button class="close-btn" id="lightbox-close" aria-label="Close image">Close ✕</button>
+    <figure>
+      <img id="lightbox-img" alt="">
+      <figcaption id="lightbox-caption"></figcaption>
+    </figure>
+  </div>
+
   <!-- Particles.js -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
@@ -388,7 +426,7 @@
         const open = links.classList.toggle('open');
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       });
-      links.querySelectorAll('a').forEach(a => {
+      links?.querySelectorAll('a').forEach(a => {
         a.addEventListener('click', () => links.classList.remove('open'));
       });
     })();
@@ -429,6 +467,65 @@
         });
       }
     });
+
+    // ===== Lightbox (click-to-zoom for project images) =====
+    (function(){
+      const overlay = document.getElementById('lightbox');
+      const modalImg = document.getElementById('lightbox-img');
+      const caption = document.getElementById('lightbox-caption');
+      const closeBtn = document.getElementById('lightbox-close');
+
+      function openLightbox(src, alt){
+        modalImg.src = src;
+        modalImg.alt = alt || '';
+        caption.textContent = alt || '';
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden','false');
+        document.body.classList.add('modal-open');
+        closeBtn.focus();
+      }
+      function closeLightbox(){
+        overlay.classList.remove('open');
+        overlay.setAttribute('aria-hidden','true');
+        document.body.classList.remove('modal-open');
+        // small timeout to avoid flash when reopening soon after close
+        setTimeout(()=>{ modalImg.src=''; }, 150);
+      }
+
+      document.querySelectorAll('.project-image img').forEach(img=>{
+        img.addEventListener('click', ()=> openLightbox(img.src, img.alt));
+      });
+      overlay.addEventListener('click', (e)=>{
+        if(e.target === overlay || e.target === closeBtn) closeLightbox();
+      });
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape') closeLightbox();
+      });
+    })();
+
+    // ===== Disable double-tap and pinch zoom on mobile (in addition to meta tag) =====
+    // Note: may block double-tap gestures; requested behavior.
+    (function(){
+      // iOS Safari gesture events
+      document.addEventListener('gesturestart', e => e.preventDefault(), { passive:false });
+
+      // Block double-tap to zoom
+      let lastTouchEnd = 0;
+      document.addEventListener('touchend', function(e) {
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) {
+          e.preventDefault();
+        }
+        lastTouchEnd = now;
+      }, { passive:false });
+
+      // Block dblclick zoom on some Android browsers
+      document.addEventListener('dblclick', function(e){
+        if (matchMedia('(pointer: coarse)').matches) {
+          e.preventDefault();
+        }
+      }, { passive:false });
+    })();
   </script>
 </body>
 </html>
