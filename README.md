@@ -6,4 +6,4 @@ Feel free to explore the projects I’ve worked on and get a better sense of wha
 
 🔗 **Live Portfolio:** [ryguyc7.github.io/portfolio-site](https://ryguyc7.github.io/portfolio-site)
 
-![QR Code](./18076b19-d7bf-4fdd-9276-a330d8f05267.png)
+
