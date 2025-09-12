@@ -7,3 +7,4 @@ Feel free to explore the projects I’ve worked on and get a better sense of wha
 🔗 **Live Portfolio:** [ryguyc7.github.io/portfolio-site](https://ryguyc7.github.io/portfolio-site)
 
 
+<img width="512" height="512" alt="qr_portfolio_512" src="https://github.com/user-attachments/assets/0401f936-bf6f-44a5-b6b9-5a6cf9cbbd5a" />
