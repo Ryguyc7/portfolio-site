@@ -50,13 +50,32 @@
   .nav-links a:hover,.nav-links a.active{ color:var(--ink); background:rgba(255,255,255,.05); border-color:var(--stroke) }
   .nav-toggle{ display:none; background:none; border:1px solid var(--stroke); color:var(--ink); padding:8px 10px; border-radius:10px }
   @media (max-width:840px){
-    .nav-toggle{ display:block }
-    .nav-links{
-      position:fixed; top:var(--nav-h); left:0; right:0; background:var(--panel-2); flex-direction:column; gap:8px;
-      padding:12px var(--gutter) 16px; border-bottom:1px solid var(--stroke); transform:translateY(-10px); opacity:0; pointer-events:none; transition:.24s ease
-    }
-    .nav-links.open{ transform:translateY(0); opacity:1; pointer-events:auto }
+  .nav-toggle{
+    display:flex;              /* was block */
+    align-items:center;
+    justify-content:center;
+    font-size:1.2rem;          /* size of the ☰ icon */
+    padding:10px 10px;         /* bigger tap target */
+    min-width:48px;
+    min-height:44px;
   }
+
+  .nav-links{
+    position:fixed;
+    top:var(--nav-h);
+    left:0; right:0;
+    background:var(--panel-2);
+    flex-direction:column;
+    gap:8px;
+    padding:12px var(--gutter) 16px;
+    border-bottom:1px solid var(--stroke);
+    transform:translateY(-10px);
+    opacity:0;
+    pointer-events:none;
+    transition:.24s ease;
+  }
+  .nav-links.open{ transform:translateY(0); opacity:1; pointer-events:auto }
+}
 
   /* HERO */
   header{ position:relative; min-height:100vh; display:grid; place-items:center; overflow:hidden }
