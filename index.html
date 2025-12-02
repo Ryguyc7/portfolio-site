@@ -44,11 +44,7 @@
   }
   .nav-inner{ max-width:var(--maxw); margin:0 auto; height:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:0 var(--gutter) }
   .logo{ font-weight:700; letter-spacing:.3px }
-  .logo::before{
-    content:""; display:inline-block; width:.9em; height:.9em; margin-right:10px; border-radius:50%;
-    background:conic-gradient(from var(--a,0deg), var(--accent), var(--accent-2), var(--accent));
-    box-shadow:0 0 24px rgba(89,198,255,.55); animation:spin 10s linear infinite;
-  }
+
   .nav-links{ display:flex; gap:10px; align-items:center }
   .nav-links a{ padding:10px 12px; border-radius:10px; color:var(--muted); border:1px solid transparent; font-weight:600 }
   .nav-links a:hover,.nav-links a.active{ color:var(--ink); background:rgba(255,255,255,.05); border-color:var(--stroke) }
