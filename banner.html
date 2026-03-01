@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Clean Blue Banner</title>
+<style>
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0; font-family: Inter, system-ui, Arial, Helvetica, sans-serif; background:#fff}
+
+  /* ===== Banner ===== */
+  .banner{
+    width:100vw;
+    height:60px;                 /* thinner */
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+    isolation:isolate;
+
+    /* calm blue gradient (no rainbow, no stripes) */
+    background:
+      linear-gradient(180deg, #2b7ddf 0%, #1e66c5 60%, #1a5cb6 100%);
+  }
+
+  /* subtle breathing glow — very short, low motion */
+  .banner::after{
+    content:"";
+    position:absolute; inset:-30% -10%;
+    background:
+      radial-gradient(40% 80% at 20% 50%, rgba(255,255,255,.20), transparent 60%),
+      radial-gradient(40% 80% at 80% 50%, rgba(255,255,255,.18), transparent 60%);
+    opacity:.55;
+    animation: glow 4s ease-in-out infinite alternate;
+    pointer-events:none;
+    z-index:0;
+  }
+  @keyframes glow{
+    from{ opacity:.35; filter:blur(0.5px) }
+    to  { opacity:.65; filter:blur(1.5px) }
+  }
+
+  /* layout */
+  .banner__inner{
+    max-width:1100px;
+    height:100%;
+    margin:0 auto;
+    padding:0 clamp(14px,4vw,24px);
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    position:relative; z-index:2;
+  }
+
+  .copy{ display:flex; align-items:center; gap:10px; min-width:0 }
+
+  .tag{
+    font-size:.72rem; font-weight:800; letter-spacing:.25px;
+    padding:4px 10px; border-radius:999px;
+    background:rgba(10,20,40,.25);
+    border:1px solid rgba(255,255,255,.35);
+    backdrop-filter:saturate(120%) blur(3px);
+    white-space:nowrap;
+  }
+
+  .headline{
+    margin:0; font-weight:850; letter-spacing:.2px;
+    font-size:clamp(16px,2vw,22px);
+    text-shadow:0 2px 8px rgba(0,0,0,.25);
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+
+  /* CTA matches the system */
+  .cta{
+    --btn-bg:#ffffff;
+    --btn-ink:#0d1b2a;
+    display:inline-flex; align-items:center; gap:8px;
+    text-decoration:none; color:var(--btn-ink); font-weight:900;
+    background:var(--btn-bg);
+    padding:8px 14px; border-radius:12px;
+    box-shadow:
+      0 8px 20px rgba(0,0,0,.25),
+      0 0 0 1px rgba(255,255,255,.5) inset;
+    transition:transform .15s ease, filter .15s ease, background .15s ease;
+  }
+  .cta:hover{ transform:translateY(-1px); filter:saturate(105%) }
+  .cta:active{ transform:translateY(0) scale(.98) }
+
+  /* Cartoony close that fits the blue theme */
+  .banner__close{
+    position:absolute; right:10px; top:50%; transform:translateY(-50%);
+    width:36px; height:36px; border-radius:50%;
+    display:grid; place-items:center;
+    background:#48b0ff;                 /* bright blue */
+    color:#fff; font-size:20px; font-weight:900;
+    border:3px solid #ffffff;           /* thick white ring */
+    box-shadow:0 3px 0 #2a78b9, 0 8px 20px rgba(0,0,0,.25); /* cartoony drop */
+    cursor:pointer; z-index:3;
+    transition:transform .15s ease, filter .15s ease;
+  }
+  .banner__close:hover{ transform:translateY(-50%) scale(1.12) rotate(-6deg); filter:saturate(110%) }
+  .banner__close:active{ transform:translateY(-50%) scale(.95) }
+
+  /* collapse when closing */
+  .banner--closing{ max-height:60px; transition:max-height .3s ease, opacity .25s ease; }
+  .banner--closed{ max-height:0 !important; opacity:0; overflow:hidden; }
+
+  /* Mobile */
+  @media (max-width:640px){
+    .headline{ white-space:normal }
+    .cta{ padding:8px 12px }
+    .banner__close{ right:8px }
+  }
+
+  /* Accessibility: reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    .banner::after{ animation:none }
+  }
+</style>
+</head>
+<body>
+
+  <div class="banner banner--closing" id="promoBanner" role="region" aria-label="Promotion">
+    <div class="banner__inner">
+      <div class="copy">
+        <span class="tag">LIMITED TIME</span>
+        <h2 class="headline">Big Sale — 50% Off Site-Wide</h2>
+      </div>
+      <a class="cta" href="#" aria-label="Shop Now, 50% Off">Shop Now →</a>
+    </div>
+
+    <!-- Close button -->
+    <button class="banner__close" id="closeBanner" aria-label="Close promotion">×</button>
+  </div>
+
+<script>
+  (function(){
+    const banner = document.getElementById('promoBanner');
+    const btn = document.getElementById('closeBanner');
+    btn?.addEventListener('click', () => banner.classList.add('banner--closed'));
+  })();
+</script>
+
+</body>
+</html>
